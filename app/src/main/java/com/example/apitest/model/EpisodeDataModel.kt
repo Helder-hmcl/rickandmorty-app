@@ -7,9 +7,9 @@ data class EpisodeDataModel(
     var episode_code: String,
     var characters: Array<String>,
     var url: String,
-    val created: String
+    val created: String,
 ) : java.io.Serializable
 
 data class EpisodesListDataModel(
-    var results: List<EpisodeDataModel>
+    var results: List<EpisodeDataModel>,
 ) : java.io.Serializable

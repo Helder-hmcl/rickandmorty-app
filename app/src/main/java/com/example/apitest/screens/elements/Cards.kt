@@ -16,44 +16,54 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
+@Suppress("ktlint:standard:function-naming")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HorizontalGridCard(title: String, description: String, onClick: () -> Unit) {
+fun HorizontalGridCard(
+    title: String,
+    description: String,
+    onClick: () -> Unit,
+) {
     Card(onClick = { onClick() }, modifier = Modifier.wrapContentHeight()) {
         Column(Modifier.padding(10.dp)) {
             Text(
                 style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier.align(Alignment.Start),
                 textAlign = TextAlign.Left,
-                text = title
-            )
-            Text(
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.align(Alignment.Start),
-                textAlign = TextAlign.Left,
-                text = description
-            )
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun GridCard(title: String, description: String, onClick: () -> Unit) {
-    Card(onClick = { onClick() }, modifier = Modifier.wrapContentHeight().fillMaxWidth().fillMaxHeight()) {
-        Column(Modifier.padding(10.dp)) {
-            Text(
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.align(Alignment.Start),
-                textAlign = TextAlign.Left,
-                text = title
+                text = title,
             )
             Text(
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.align(Alignment.Start),
                 textAlign = TextAlign.Left,
                 text = description,
-                overflow = TextOverflow.Ellipsis
+            )
+        }
+    }
+}
+
+@Suppress("ktlint:standard:function-naming")
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun GridCard(
+    title: String,
+    description: String,
+    onClick: () -> Unit,
+) {
+    Card(onClick = { onClick() }, modifier = Modifier.wrapContentHeight().fillMaxWidth().fillMaxHeight()) {
+        Column(Modifier.padding(10.dp)) {
+            Text(
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.align(Alignment.Start),
+                textAlign = TextAlign.Left,
+                text = title,
+            )
+            Text(
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.align(Alignment.Start),
+                textAlign = TextAlign.Left,
+                text = description,
+                overflow = TextOverflow.Ellipsis,
             )
         }
     }

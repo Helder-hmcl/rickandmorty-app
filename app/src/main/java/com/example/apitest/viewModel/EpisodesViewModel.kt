@@ -15,12 +15,13 @@ import java.io.IOException
 
 sealed interface EpisodeUiState {
     data class Success(val episodes: EpisodesListDataModel) : EpisodeUiState
+
     data object Error : EpisodeUiState
+
     data object Loading : EpisodeUiState
 }
 
 class EpisodesViewModel(application: Application) : AndroidViewModel(application) {
-
     var episodeUiState: EpisodeUiState by mutableStateOf(EpisodeUiState.Loading)
         private set
 

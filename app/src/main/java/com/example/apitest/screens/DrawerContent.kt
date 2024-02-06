@@ -37,52 +37,55 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 object DrawerContent {
+    @Suppress("ktlint:standard:function-naming")
     @Composable
     fun DrawerContent(
         navController: NavController,
         drawerState: DrawerState,
         scope: CoroutineScope,
-        bottomNavigationViewModel: BottomNavigationViewModel
+        bottomNavigationViewModel: BottomNavigationViewModel,
     ) {
         ModalDrawerSheet(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .padding(top = 10.dp, end = 10.dp),
+            modifier =
+                Modifier
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(top = 10.dp, end = 10.dp),
             drawerContainerColor = MaterialTheme.colorScheme.background,
-            drawerContentColor = MaterialTheme.colorScheme.primary
+            drawerContentColor = MaterialTheme.colorScheme.primary,
         ) {
             Column(
                 Modifier
                     .background(MaterialTheme.colorScheme.primary)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
             ) {
                 Column(Modifier.padding(10.dp)) {
                     Image(
                         imageVector = Icons.Rounded.AccountCircle,
                         contentDescription = "profilePicture",
                         contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .width(90.dp)
-                            .height(90.dp),
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inversePrimary)
+                        modifier =
+                            Modifier
+                                .width(90.dp)
+                                .height(90.dp),
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inversePrimary),
                     )
                     Text(
                         text = "Hélder Lourenço",
                         style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.inversePrimary
+                        color = MaterialTheme.colorScheme.inversePrimary,
                     )
                 }
             }
             Divider()
             Column(
                 Modifier.padding(10.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
+                verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
                 DrawerItem(
                     "Home",
                     Icons.Rounded.Home,
                     drawerState,
-                    scope
+                    scope,
                 ) {
                     bottomNavigationViewModel.setBottomMenuSelected(BottomIcons.HOME)
                     navController.navigate("home")
@@ -91,7 +94,7 @@ object DrawerContent {
                     "Episodes",
                     Icons.Rounded.DateRange,
                     drawerState,
-                    scope
+                    scope,
                 ) {
                     bottomNavigationViewModel.setBottomMenuSelected(BottomIcons.EPISODES)
                     navController.navigate("episodes")
@@ -100,7 +103,7 @@ object DrawerContent {
                     "Characters",
                     Icons.Rounded.Face,
                     drawerState,
-                    scope
+                    scope,
                 ) {
                     bottomNavigationViewModel.setBottomMenuSelected(BottomIcons.CHARACTERS)
                     navController.navigate("characters")
@@ -113,30 +116,32 @@ object DrawerContent {
                     text = "Settings",
                     imageVector = Icons.Rounded.Settings,
                     drawerState,
-                    scope
+                    scope,
                 ) {}
             }
         }
     }
 
+    @Suppress("ktlint:standard:function-naming")
     @Composable
     fun DrawerItem(
         text: String,
         imageVector: ImageVector,
         drawerState: DrawerState,
         scope: CoroutineScope,
-        onClick: () -> Unit
+        onClick: () -> Unit,
     ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(10.dp),
-            modifier = Modifier
-                .clickable {
-                    scope.launch {
-                        drawerState.close()
+            modifier =
+                Modifier
+                    .clickable {
+                        scope.launch {
+                            drawerState.close()
+                        }
+                        onClick()
                     }
-                    onClick()
-                }
-                .fillMaxWidth()
+                    .fillMaxWidth(),
         ) {
             Icon(
                 imageVector = imageVector,
@@ -144,7 +149,7 @@ object DrawerContent {
                 Modifier
                     .align(Alignment.CenterVertically)
                     .width(25.dp)
-                    .height(25.dp)
+                    .height(25.dp),
             )
             Text(text = text, style = MaterialTheme.typography.titleLarge)
         }

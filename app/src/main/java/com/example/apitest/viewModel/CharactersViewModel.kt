@@ -14,7 +14,9 @@ import java.io.IOException
 
 sealed interface CharactersUiState {
     data class Success(val characters: CharactersListDataModel) : CharactersUiState
+
     data object Error : CharactersUiState
+
     data object Loading : CharactersUiState
 }
 /*data class ScreenState(
@@ -26,34 +28,33 @@ sealed interface CharactersUiState {
 )*/
 
 class CharactersViewModel(application: Application) : AndroidViewModel(application) {
-
     var charactersUiState: CharactersUiState by mutableStateOf(CharactersUiState.Loading)
         private set
 
-/*    var state by mutableStateOf(ScreenState())
+    /*    var state by mutableStateOf(ScreenState())
 
-    private val paginator = DefaultPaginator(
-        initialKey = state.page,
-        onLoadUpdated = {
-            state = state.copy(isLoading = it)
-        },
-        onRequest = { nextPage ->
-            ApiCall().getAllCharacters({}, nextPage, 20)
-        },
-        getNextKey = {
-            state.page + 1
-        },
-        onError = {
-            state = state.copy(error = it?.localizedMessage)
-        },
-        onSuccess = { items, newKey ->
-            state = state.copy(
-                items = state.items + items,
-                page = newKey,
-                endReached = items.isEmpty()
-            )
-        }
-    )*/
+        private val paginator = DefaultPaginator(
+            initialKey = state.page,
+            onLoadUpdated = {
+                state = state.copy(isLoading = it)
+            },
+            onRequest = { nextPage ->
+                ApiCall().getAllCharacters({}, nextPage, 20)
+            },
+            getNextKey = {
+                state.page + 1
+            },
+            onError = {
+                state = state.copy(error = it?.localizedMessage)
+            },
+            onSuccess = { items, newKey ->
+                state = state.copy(
+                    items = state.items + items,
+                    page = newKey,
+                    endReached = items.isEmpty()
+                )
+            }
+        )*/
 
     init {
         getCharacters()
@@ -65,7 +66,7 @@ class CharactersViewModel(application: Application) : AndroidViewModel(applicati
             try {
                 var listResult: CharactersListDataModel?
 
-                ApiCall().getAllCharacters() { characters ->
+                ApiCall().getAllCharacters { characters ->
                     listResult = characters
                     charactersUiState = CharactersUiState.Success(listResult!!)
                 }

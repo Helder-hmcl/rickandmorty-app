@@ -22,5 +22,7 @@ interface ApiService {
     fun getCharacters(): Call<CharactersListDataModel>
 
     @GET("character/{characterId}")
-    fun getSingleCharacter(@Path("characterId") characterId: String): Call<CharacterDataModel>
+    fun getSingleCharacter(
+        @Path("characterId") characterId: String,
+    ): Call<CharacterDataModel>
 }
