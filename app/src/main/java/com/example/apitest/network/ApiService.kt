@@ -12,10 +12,10 @@ import retrofit.http.Path
 interface ApiService {
     // This annotation specifies that the HTTP method
     // is GET and the endpoint URL is "episode".
-    @GET("episode")
     // This method returns a Call object with a generic
     // type of DataModel, which represents
     // the data model for the response.
+    @GET("episode")
     fun getEpisodes(): Call<EpisodesListDataModel>
 
     @GET("character")
@@ -23,5 +23,4 @@ interface ApiService {
 
     @GET("character/{characterId}")
     fun getSingleCharacter(@Path("characterId") characterId: String): Call<CharacterDataModel>
-
 }

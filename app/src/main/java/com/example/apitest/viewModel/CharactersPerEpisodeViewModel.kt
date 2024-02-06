@@ -16,7 +16,6 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
-
 sealed interface CharactersPerEpisodeUiState {
     data class Success(val characters: List<CharacterDataModel>) : CharactersPerEpisodeUiState
     data object Error : CharactersPerEpisodeUiState
@@ -37,9 +36,7 @@ class CharactersPerEpisodeViewModel(application: Application) : AndroidViewModel
         getCharactersFromEpisode(context, listOfCharactersUrl)
     }
 
-
     private fun getCharactersFromEpisode(context: Context, listOfCharactersUrl: List<String>) {
-
         viewModelScope.launch {
             charactersPerEpisodeUiState = CharactersPerEpisodeUiState.Loading
             val listResult: MutableList<CharacterDataModel> = mutableListOf()
@@ -60,7 +57,6 @@ class CharactersPerEpisodeViewModel(application: Application) : AndroidViewModel
 
                 deferredList.awaitAll()
                 charactersPerEpisodeUiState = CharactersPerEpisodeUiState.Success(listResult)
-
             } catch (e: IOException) {
                 CharactersPerEpisodeUiState.Error
             } catch (e: HttpException) {
@@ -74,5 +70,4 @@ class CharactersPerEpisodeViewModel(application: Application) : AndroidViewModel
         val matchResult = regex.find(characterUrl)
         return matchResult?.groupValues?.getOrNull(1)
     }
-
 }

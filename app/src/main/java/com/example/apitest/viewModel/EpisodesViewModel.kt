@@ -19,7 +19,6 @@ sealed interface EpisodeUiState {
     data object Loading : EpisodeUiState
 }
 
-
 class EpisodesViewModel(application: Application) : AndroidViewModel(application) {
 
     var episodeUiState: EpisodeUiState by mutableStateOf(EpisodeUiState.Loading)
@@ -29,7 +28,6 @@ class EpisodesViewModel(application: Application) : AndroidViewModel(application
         val context = getApplication<Application>().applicationContext
         getEpisodes(context)
     }
-
 
     private fun getEpisodes(context: Context) {
         viewModelScope.launch {
@@ -49,5 +47,3 @@ class EpisodesViewModel(application: Application) : AndroidViewModel(application
         }
     }
 }
-
-

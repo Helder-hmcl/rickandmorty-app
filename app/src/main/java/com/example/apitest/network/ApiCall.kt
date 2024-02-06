@@ -22,12 +22,10 @@ class ApiCall {
         val url = "https://rickandmortyapi.com/api/"
     }
 
-
     // This function takes a Context and callback function
     // as a parameter, which will be called
     // when the API response is received.
     fun getAllEpisodes(context: Context, callback: (EpisodesListDataModel) -> Unit) {
-
         // Create a Retrofit instance with the base URL and
         // a GsonConverterFactory for parsing the response.
 
@@ -58,7 +56,6 @@ class ApiCall {
                     // Call the callback function with the DataModel
                     // object as a parameter.
 
-
                     callback(episodes)
                 }
             }
@@ -71,8 +68,7 @@ class ApiCall {
         })
     }
 
-    fun getAllCharacters(callback: (CharactersListDataModel) -> Unit,/* page: Int, count: Int*/) {
-
+    fun getAllCharacters(callback: (CharactersListDataModel) -> Unit /* page: Int, count: Int*/) {
         // Create a Retrofit instance with the base URL and
         // a GsonConverterFactory for parsing the response.
 
@@ -103,7 +99,6 @@ class ApiCall {
                     // Call the callback function with the DataModel
                     // object as a parameter.
 
-
                     callback(episodes)
                 }
             }
@@ -117,7 +112,6 @@ class ApiCall {
 
     suspend fun getSingleCharacter(characterId: String): CharacterDataModel =
         withContext(Dispatchers.IO) {
-
             // Create a Retrofit instance with the base URL and
             // a GsonConverterFactory for parsing the response.
             val retrofit: Retrofit = Retrofit.Builder().baseUrl(url).addConverterFactory(
@@ -143,10 +137,8 @@ class ApiCall {
                 // Handle unsuccessful response or null body
             }
 
-
             // Use the enqueue() method of the Call object to
             // make an asynchronous API request.
-
 
             /*        call.enqueue(object : Callback<CharacterDataModel> {
                         // This is an anonymous inner class that implements the Callback interface.

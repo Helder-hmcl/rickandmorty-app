@@ -32,7 +32,6 @@ import com.example.apitest.screens.elements.GridCard
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-
 object HomeScreen {
     @OptIn(ExperimentalTextApi::class)
     @Composable
@@ -65,7 +64,7 @@ object HomeScreen {
                 text.getStringAnnotations(it, it).firstOrNull()?.tag?.let { tag ->
                     val browserIntent =
                         Intent(Intent.ACTION_VIEW, Uri.parse("https://www.rickandmortyapi.com"))
-                    browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(context, browserIntent, null)
                 }
             }
@@ -101,7 +100,7 @@ object HomeScreen {
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         items(listOfTitles.size) {
                             Box(
@@ -124,4 +123,3 @@ object HomeScreen {
         }
     }
 }
-
