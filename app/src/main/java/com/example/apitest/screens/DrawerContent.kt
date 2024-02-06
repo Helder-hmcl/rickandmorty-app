@@ -31,12 +31,19 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.apitest.viewModel.BottomIcons
+import com.example.apitest.viewModel.BottomNavigationViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 object DrawerContent {
     @Composable
-    fun DrawerContent(navController: NavController, drawerState: DrawerState, scope: CoroutineScope) {
+    fun DrawerContent(
+        navController: NavController,
+        drawerState: DrawerState,
+        scope: CoroutineScope,
+        bottomNavigationViewModel: BottomNavigationViewModel
+    ) {
         ModalDrawerSheet(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.background)
@@ -77,6 +84,7 @@ object DrawerContent {
                     drawerState,
                     scope
                 ) {
+                    bottomNavigationViewModel.setBottomMenuSelected(BottomIcons.HOME)
                     navController.navigate("home")
                 }
                 DrawerItem(
@@ -84,8 +92,19 @@ object DrawerContent {
                     Icons.Rounded.DateRange,
                     drawerState,
                     scope
-                ) { navController.navigate("episodes") }
-                DrawerItem("Characters", Icons.Rounded.Face, drawerState, scope) { navController.navigate("characters") }
+                ) {
+                    bottomNavigationViewModel.setBottomMenuSelected(BottomIcons.EPISODES)
+                    navController.navigate("episodes")
+                }
+                DrawerItem(
+                    "Characters",
+                    Icons.Rounded.Face,
+                    drawerState,
+                    scope
+                ) {
+                    bottomNavigationViewModel.setBottomMenuSelected(BottomIcons.CHARACTERS)
+                    navController.navigate("characters")
+                }
                 DrawerItem("Favorites", Icons.Filled.FavoriteBorder, drawerState, scope) {}
             }
             Divider()

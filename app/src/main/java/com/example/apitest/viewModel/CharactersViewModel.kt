@@ -1,7 +1,6 @@
 package com.example.apitest.viewModel
 
 import android.app.Application
-import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -18,22 +17,22 @@ sealed interface CharactersUiState {
     data object Error : CharactersUiState
     data object Loading : CharactersUiState
 }
-data class ScreenState(
+/*data class ScreenState(
     val isLoading: Boolean = false,
     val items: CharactersListDataModel = CharactersListDataModel(emptyList()),
     val error: String? = null,
     val endReached: Boolean = false,
     val page: Int = 0
-)
+)*/
 
 class CharactersViewModel(application: Application) : AndroidViewModel(application) {
 
     var charactersUiState: CharactersUiState by mutableStateOf(CharactersUiState.Loading)
         private set
 
-    var state by mutableStateOf(ScreenState())
+/*    var state by mutableStateOf(ScreenState())
 
-/*    private val paginator = DefaultPaginator(
+    private val paginator = DefaultPaginator(
         initialKey = state.page,
         onLoadUpdated = {
             state = state.copy(isLoading = it)
@@ -57,15 +56,14 @@ class CharactersViewModel(application: Application) : AndroidViewModel(applicati
     )*/
 
     init {
-        val context = getApplication<Application>().applicationContext
-        getCharacters(context)
+        getCharacters()
     }
 
-    private fun getCharacters(context: Context) {
+    private fun getCharacters() {
         viewModelScope.launch {
             charactersUiState = CharactersUiState.Loading
             try {
-                var listResult: CharactersListDataModel? = null
+                var listResult: CharactersListDataModel?
 
                 ApiCall().getAllCharacters() { characters ->
                     listResult = characters

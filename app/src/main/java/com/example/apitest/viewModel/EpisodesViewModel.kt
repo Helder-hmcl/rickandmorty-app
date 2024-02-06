@@ -33,7 +33,7 @@ class EpisodesViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch {
             episodeUiState = EpisodeUiState.Loading
             try {
-                var listResult: EpisodesListDataModel? = null
+                var listResult: EpisodesListDataModel?
 
                 ApiCall().getAllEpisodes(context) { episodes ->
                     listResult = episodes
