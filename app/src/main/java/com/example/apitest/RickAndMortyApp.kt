@@ -114,7 +114,7 @@ fun RickAndMortyApp(applicationContext: Context) {
             },
             floatingActionButton = {},
         ) { contentPadding ->
-             Surface(
+            Surface(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(contentPadding),
