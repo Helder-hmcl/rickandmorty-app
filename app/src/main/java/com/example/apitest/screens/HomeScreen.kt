@@ -29,6 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.NavController
 import com.example.apitest.screens.elements.GridCard
+import com.example.apitest.viewModel.BottomIcons
+import com.example.apitest.viewModel.BottomNavigationViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -41,6 +43,7 @@ object HomeScreen {
         navController: NavController,
         scope: CoroutineScope,
         drawerState: DrawerState,
+        bottomNavigationViewModel: BottomNavigationViewModel
     ) {
         Column(Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Text(
@@ -53,10 +56,10 @@ object HomeScreen {
                     withAnnotation("tag", "annotation") {
                         withStyle(
                             style =
-                                SpanStyle(
-                                    color = Blue,
-                                    fontWeight = FontWeight.Bold,
-                                ),
+                            SpanStyle(
+                                color = Blue,
+                                fontWeight = FontWeight.Bold,
+                            ),
                         ) {
                             append("Rick And Morty API")
                         }
@@ -89,8 +92,14 @@ object HomeScreen {
                     )
                 val listOfActions =
                     listOf<() -> Unit>(
-                        { navController.navigate("episodes") },
-                        { navController.navigate("characters") },
+                        {
+                            bottomNavigationViewModel.setBottomMenuSelected(BottomIcons.EPISODES)
+                            navController.navigate("episodes")
+                        },
+                        {
+                            bottomNavigationViewModel.setBottomMenuSelected(BottomIcons.CHARACTERS)
+                            navController.navigate("characters")
+                        },
                         {
                             scope.launch {
                                 drawerState.open()

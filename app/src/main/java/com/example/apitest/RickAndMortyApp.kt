@@ -119,7 +119,14 @@ fun RickAndMortyApp(applicationContext: Context) {
                     .fillMaxSize()
                     .padding(contentPadding),
             ) {
-                MyApp(Modifier, navController, applicationContext, scope, drawerState)
+                MyApp(
+                    Modifier,
+                    navController,
+                    applicationContext,
+                    scope,
+                    drawerState,
+                    bottomNavigationViewModel
+                )
             }
         }
     }
@@ -280,6 +287,7 @@ fun MyApp(
     applicationContext: Context,
     scope: CoroutineScope,
     drawerState: DrawerState,
+    bottomNavigationViewModel: BottomNavigationViewModel
 ) {
     NavHost(navController, startDestination = "home") {
         composable("home") {
@@ -288,6 +296,7 @@ fun MyApp(
                 navController = navController,
                 scope = scope,
                 drawerState = drawerState,
+                bottomNavigationViewModel = bottomNavigationViewModel
             )
         }
         composable("episodes") {
