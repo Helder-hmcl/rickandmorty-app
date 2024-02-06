@@ -28,7 +28,8 @@ object CharactersPerEpisodeScreen {
         when (charactersUiState) {
             is CharactersPerEpisodeUiState.Loading -> CharacterLoadingScreen(modifier = modifier.fillMaxSize())
             is CharactersPerEpisodeUiState.Success -> CharacterResultScreen(
-                charactersUiState.characters, modifier = modifier.fillMaxWidth()
+                charactersUiState.characters,
+                modifier = modifier.fillMaxWidth()
             )
 
             is CharactersPerEpisodeUiState.Error -> ErrorScreen(modifier = modifier.fillMaxSize())
@@ -37,10 +38,10 @@ object CharactersPerEpisodeScreen {
 
     @OptIn(ExperimentalGlideComposeApi::class)
     @Composable
-    fun CharacterResultScreen(characters: List<CharacterDataModel>, modifier: Modifier){
+    fun CharacterResultScreen(characters: List<CharacterDataModel>, modifier: Modifier) {
         Log.d("AQUIMESMO", characters.size.toString())
 
-        for(each in characters){
+        for (each in characters) {
             Log.d("AQUIMESMO characterScreen", each.toString())
         }
 
@@ -50,7 +51,7 @@ object CharactersPerEpisodeScreen {
                     GlideImage(
                         model = character.image,
                         contentDescription = character.name,
-                        modifier = Modifier.padding(8.dp),
+                        modifier = Modifier.padding(8.dp)
                     )
                 }
             }
@@ -58,7 +59,7 @@ object CharactersPerEpisodeScreen {
     }
 
     @Composable
-    fun CharacterLoadingScreen(modifier: Modifier){
+    fun CharacterLoadingScreen(modifier: Modifier) {
         Log.d("LoadingDebug", "CharacterLoadingScreen")
         Image(
             modifier = modifier.size(200.dp),
@@ -67,4 +68,3 @@ object CharactersPerEpisodeScreen {
         )
     }
 }
-

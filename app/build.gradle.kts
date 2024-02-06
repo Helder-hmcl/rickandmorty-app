@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 android {
@@ -72,4 +73,6 @@ dependencies {
     implementation("com.squareup.retrofit:converter-gson:2.0.0-beta2")
 
     implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
+
+    implementation("org.jlleitschuh.gradle:ktlint-gradle:11.6.1")
 }

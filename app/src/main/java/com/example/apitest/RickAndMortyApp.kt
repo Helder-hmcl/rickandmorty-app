@@ -20,11 +20,20 @@ package com.example.apitest
 
 import android.content.Context
 import android.util.Log
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.rounded.DateRange
+import androidx.compose.material.icons.rounded.Face
+import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material.icons.rounded.Home
+import androidx.compose.material.icons.rounded.Menu
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
@@ -42,7 +51,10 @@ import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
@@ -63,7 +75,6 @@ import com.example.apitest.viewModel.EpisodesViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RickAndMortyApp(applicationContext: Context) {
@@ -76,18 +87,25 @@ fun RickAndMortyApp(applicationContext: Context) {
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet { DrawerContent.DrawerContent(navController, drawerState, scope) }
-        },
+        }
     ) {
-        Scaffold(modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection), topBar = {
-            RickAndMortyTopAppBar(
-                scrollBehavior = scrollBehavior,
-                navController = navController,
-                scope = scope,
-                drawerState = drawerState
-            )
-        }, floatingActionButton = {
+        Scaffold(
+            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+            topBar = {
+                RickAndMortyTopAppBar(
+                    scrollBehavior = scrollBehavior,
+                    navController = navController,
+                    scope = scope,
+                    drawerState = drawerState
+                )
+            },
+            bottomBar = {
+                RickAndMortyBottomAppBar()
+            },
 
-        }) { contentPadding ->
+            floatingActionButton = {
+            }
+        ) { contentPadding ->
             Surface(
                 modifier = Modifier
                     .fillMaxSize()
@@ -99,7 +117,6 @@ fun RickAndMortyApp(applicationContext: Context) {
     }
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RickAndMortyTopAppBar(
@@ -109,41 +126,116 @@ fun RickAndMortyTopAppBar(
     scope: CoroutineScope,
     drawerState: DrawerState
 ) {
-    CenterAlignedTopAppBar(scrollBehavior = scrollBehavior, colors = topAppBarColors(
-        containerColor = MaterialTheme.colorScheme.secondary,
-        scrolledContainerColor = MaterialTheme.colorScheme.secondary,
-        navigationIconContentColor = MaterialTheme.colorScheme.inversePrimary,
-        actionIconContentColor = MaterialTheme.colorScheme.inversePrimary
-    ), title = {
-        Text(
-            text = stringResource(R.string.app_name),
-            style = MaterialTheme.typography.headlineSmall,
-            color = MaterialTheme.colorScheme.inversePrimary,
-            textAlign = TextAlign.Center
-        )
-    }, modifier = modifier, actions = {
-        IconButton(onClick = { /*TODO*/ }) {
-            Icon(
-                imageVector = Icons.Filled.Person, contentDescription = "Localized description"
+    CenterAlignedTopAppBar(
+        scrollBehavior = scrollBehavior,
+        colors = topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.secondary,
+            scrolledContainerColor = MaterialTheme.colorScheme.secondary,
+            navigationIconContentColor = MaterialTheme.colorScheme.inversePrimary,
+            actionIconContentColor = MaterialTheme.colorScheme.inversePrimary
+        ),
+        title = {
+            Text(
+                text = stringResource(R.string.app_name),
+                style = MaterialTheme.typography.headlineSmall,
+                color = MaterialTheme.colorScheme.inversePrimary,
+                textAlign = TextAlign.Center
             )
-        }
-    }, navigationIcon = {
-        Log.d("Debug", navController.currentBackStackEntry?.destination?.route.toString())
-        IconButton(onClick = {
-            scope.launch {
-                drawerState.apply {
-                    if (isClosed) open() else close()
-                }
+        },
+        modifier = modifier,
+        actions = {
+            IconButton(onClick = { /*TODO*/ }) {
+                Icon(
+                    imageVector = Icons.Filled.Person,
+                    contentDescription = "Localized description"
+                )
             }
-        }) {
-            Icon(imageVector = Icons.Filled.Menu, contentDescription = "")
+        },
+        navigationIcon = {
+            Log.d("Debug", navController.currentBackStackEntry?.destination?.route.toString())
+            IconButton(onClick = {
+                scope.launch {
+                    drawerState.apply {
+                        if (isClosed) open() else close()
+                    }
+                }
+            }) {
+                Icon(imageVector = Icons.Filled.Menu, contentDescription = "")
+            }
         }
-    })
+    )
+}
+
+enum class BottomIcons {
+    HOME,
+    EPISODES,
+    CHARACTERS,
+    FAVORITES
 }
 
 @Composable
-fun MyApp(modifier: Modifier, navController: NavHostController, applicationContext: Context, scope: CoroutineScope, drawerState: DrawerState) {
+fun RickAndMortyBottomAppBar() {
+    val selected = remember { mutableStateOf(BottomIcons.HOME) }
+    val iconPressedColor = MaterialTheme.colorScheme.primary
+    val iconDefaultColor = MaterialTheme.colorScheme.onSurface
+    BottomAppBar(
+        modifier = Modifier.fillMaxWidth(),
+        MaterialTheme.colorScheme.surface,
+        content = {
+            Row(
+                modifier = Modifier.fillMaxWidth(1f),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(1f),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row() {
+                        IconButton(onClick = { selected.value = BottomIcons.HOME }, Modifier.weight(1f)) {
+                            Icon(
+                                imageVector = Icons.Rounded.Home,
+                                contentDescription = null,
+                                tint = if (selected.value == BottomIcons.HOME) iconPressedColor else iconDefaultColor
+                            )
+                        }
+                        IconButton(onClick = { selected.value = BottomIcons.EPISODES }, Modifier.weight(1f)) {
+                            Icon(
+                                Icons.Rounded.DateRange,
+                                contentDescription = null,
+                                tint = if (selected.value == BottomIcons.EPISODES) iconPressedColor else iconDefaultColor
+                            )
+                        }
+                        IconButton(onClick = { selected.value = BottomIcons.CHARACTERS }, Modifier.weight(1f)) {
+                            Icon(
+                                Icons.Rounded.Face,
+                                contentDescription = null,
+                                tint = if (selected.value == BottomIcons.CHARACTERS) iconPressedColor else iconDefaultColor
+                            )
+                        }
+                        IconButton(onClick = { selected.value = BottomIcons.FAVORITES }, Modifier.weight(1f)) {
+                            Icon(
+                                imageVector = Icons.Rounded.Favorite,
+                                contentDescription = null,
+                                tint = if (selected.value == BottomIcons.FAVORITES) iconPressedColor else iconDefaultColor
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    )
+}
 
+@Composable
+fun MyApp(
+    modifier: Modifier,
+    navController: NavHostController,
+    applicationContext: Context,
+    scope: CoroutineScope,
+    drawerState: DrawerState
+) {
     NavHost(navController, startDestination = "home") {
         composable("home") {
             HomeScreen.HomeScreen(

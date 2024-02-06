@@ -9,11 +9,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.apitest.model.CharactersListDataModel
 import com.example.apitest.network.ApiCall
-import com.example.apitest.network.DefaultPaginator
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
-
 
 sealed interface CharactersUiState {
     data class Success(val characters: CharactersListDataModel) : CharactersUiState
@@ -62,7 +60,6 @@ class CharactersViewModel(application: Application) : AndroidViewModel(applicati
         val context = getApplication<Application>().applicationContext
         getCharacters(context)
     }
-
 
     private fun getCharacters(context: Context) {
         viewModelScope.launch {

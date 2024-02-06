@@ -21,7 +21,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -43,7 +42,6 @@ import com.example.apitest.R
 import com.example.apitest.model.CharactersListDataModel
 import com.example.apitest.viewModel.CharactersUiState
 
-
 object CharactersScreen {
     @Composable
     fun CharactersScreen(
@@ -54,7 +52,8 @@ object CharactersScreen {
         when (charactersUiState) {
             is CharactersUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
             is CharactersUiState.Success -> ResultScreen(
-                charactersUiState.characters, navController
+                charactersUiState.characters,
+                navController
             )
 
             is CharactersUiState.Error -> ErrorScreen(modifier = modifier.fillMaxSize())
@@ -101,24 +100,21 @@ object CharactersScreen {
         navController: NavController
     ) {
         Box(
-            contentAlignment = Alignment.TopCenter,
+            contentAlignment = Alignment.TopCenter
         ) {
-
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(128.dp),
-                modifier = Modifier.background(MaterialTheme.colorScheme.background),
+                modifier = Modifier.background(MaterialTheme.colorScheme.background)
             ) {
                 items(characters.results) { character ->
-                    Log.d("ASD",characters.results.size.toString())
+                    Log.d("ASD", characters.results.size.toString())
                     GlideImage(
                         model = character.image,
                         contentDescription = character.name,
-                        modifier = Modifier.padding(8.dp),
+                        modifier = Modifier.padding(8.dp)
                     )
                 }
             }
         }
     }
 }
-
-

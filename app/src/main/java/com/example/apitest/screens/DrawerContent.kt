@@ -47,7 +47,7 @@ object DrawerContent {
             Column(
                 Modifier
                     .background(MaterialTheme.colorScheme.primary)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
             ) {
                 Column(Modifier.padding(10.dp)) {
                     Image(
@@ -65,27 +65,36 @@ object DrawerContent {
                         color = MaterialTheme.colorScheme.inversePrimary
                     )
                 }
-
             }
             Divider()
             Column(
-                Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(10.dp)
+                Modifier.padding(10.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 DrawerItem(
-                    "Home", Icons.Rounded.Home, drawerState, scope
+                    "Home",
+                    Icons.Rounded.Home,
+                    drawerState,
+                    scope
                 ) {
                     navController.navigate("home")
                 }
                 DrawerItem(
-                    "Episodes", Icons.Rounded.DateRange, drawerState, scope
+                    "Episodes",
+                    Icons.Rounded.DateRange,
+                    drawerState,
+                    scope
                 ) { navController.navigate("episodes") }
-                DrawerItem("Characters", Icons.Rounded.Face, drawerState, scope) {navController.navigate("characters")}
+                DrawerItem("Characters", Icons.Rounded.Face, drawerState, scope) { navController.navigate("characters") }
                 DrawerItem("Favorites", Icons.Filled.FavoriteBorder, drawerState, scope) {}
             }
             Divider()
             Column(Modifier.padding(10.dp)) {
                 DrawerItem(
-                    text = "Settings", imageVector = Icons.Rounded.Settings, drawerState, scope
+                    text = "Settings",
+                    imageVector = Icons.Rounded.Settings,
+                    drawerState,
+                    scope
                 ) {}
             }
         }
@@ -97,16 +106,19 @@ object DrawerContent {
         imageVector: ImageVector,
         drawerState: DrawerState,
         scope: CoroutineScope,
-        onClick: () -> Unit,
+        onClick: () -> Unit
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier
-            .clickable {
-                scope.launch {
-                    drawerState.close()
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            modifier = Modifier
+                .clickable {
+                    scope.launch {
+                        drawerState.close()
+                    }
+                    onClick()
                 }
-                onClick()
-            }
-            .fillMaxWidth()) {
+                .fillMaxWidth()
+        ) {
             Icon(
                 imageVector = imageVector,
                 contentDescription = text,
@@ -119,6 +131,3 @@ object DrawerContent {
         }
     }
 }
-
-
-

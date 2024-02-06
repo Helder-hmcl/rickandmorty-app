@@ -34,25 +34,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.apitest.R
 import com.example.apitest.model.EpisodesListDataModel
 import com.example.apitest.screens.elements.HorizontalGridCard
-import com.example.apitest.ui.theme.APITestTheme
 import com.example.apitest.viewModel.CharactersPerEpisodeUrlListHolder
 import com.example.apitest.viewModel.EpisodeUiState
 
 object EpisodesScreen {
     @Composable
     fun EpisodesScreen(
-        episodeUiState: EpisodeUiState, modifier: Modifier = Modifier, navController: NavController
+        episodeUiState: EpisodeUiState,
+        modifier: Modifier = Modifier,
+        navController: NavController
     ) {
         when (episodeUiState) {
             is EpisodeUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
             is EpisodeUiState.Success -> ResultScreen(
-                episodeUiState.episodes, navController
+                episodeUiState.episodes,
+                navController
             )
 
             is EpisodeUiState.Error -> ErrorScreen(modifier = modifier.fillMaxSize())
@@ -82,7 +83,8 @@ object EpisodesScreen {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_connection_error), contentDescription = ""
+                painter = painterResource(id = R.drawable.ic_connection_error),
+                contentDescription = ""
             )
             Text(text = stringResource(R.string.loading_failed), modifier = Modifier.padding(16.dp))
         }
@@ -97,14 +99,14 @@ object EpisodesScreen {
         navController: NavController
     ) {
         Box(
-            contentAlignment = Alignment.TopCenter,
+            contentAlignment = Alignment.TopCenter
         ) {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(1),
                 contentPadding = PaddingValues(8.dp),
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.background(MaterialTheme.colorScheme.background),
+                modifier = Modifier.background(MaterialTheme.colorScheme.background)
             ) {
                 items(episodes.results) { episode ->
                     HorizontalGridCard(title = episode.name, description = episode.air_date) {

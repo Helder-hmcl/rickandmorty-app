@@ -17,4 +17,4 @@ data class CharacterDataModel(
 
 data class CharactersListDataModel(
     var results: List<CharacterDataModel>
-):java.io.Serializable
+) : java.io.Serializable
