@@ -32,7 +32,6 @@ import androidx.compose.material.icons.rounded.DateRange
 import androidx.compose.material.icons.rounded.Face
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.Home
-import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DrawerState
@@ -51,8 +50,6 @@ import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -60,6 +57,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -69,6 +67,8 @@ import com.example.apitest.screens.CharactersScreen
 import com.example.apitest.screens.DrawerContent
 import com.example.apitest.screens.EpisodesScreen
 import com.example.apitest.screens.HomeScreen
+import com.example.apitest.viewModel.BottomIcons
+import com.example.apitest.viewModel.BottomNavigationViewModel
 import com.example.apitest.viewModel.CharactersPerEpisodeViewModel
 import com.example.apitest.viewModel.CharactersViewModel
 import com.example.apitest.viewModel.EpisodesViewModel
@@ -82,11 +82,20 @@ fun RickAndMortyApp(applicationContext: Context) {
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+    val bottomNavigationViewModel = BottomNavigationViewModel()
+
     ModalNavigationDrawer(
         gesturesEnabled = true,
         drawerState = drawerState,
         drawerContent = {
-            ModalDrawerSheet { DrawerContent.DrawerContent(navController, drawerState, scope) }
+            ModalDrawerSheet {
+                DrawerContent.DrawerContent(
+                    navController,
+                    drawerState,
+                    scope,
+                    bottomNavigationViewModel
+                )
+            }
         }
     ) {
         Scaffold(
@@ -100,7 +109,7 @@ fun RickAndMortyApp(applicationContext: Context) {
                 )
             },
             bottomBar = {
-                RickAndMortyBottomAppBar()
+                RickAndMortyBottomAppBar(navController, bottomNavigationViewModel)
             },
 
             floatingActionButton = {
@@ -166,16 +175,11 @@ fun RickAndMortyTopAppBar(
     )
 }
 
-enum class BottomIcons {
-    HOME,
-    EPISODES,
-    CHARACTERS,
-    FAVORITES
-}
-
 @Composable
-fun RickAndMortyBottomAppBar() {
-    val selected = remember { mutableStateOf(BottomIcons.HOME) }
+fun RickAndMortyBottomAppBar(
+    navController: NavController,
+    bottomNavigationViewModel: BottomNavigationViewModel
+) {
     val iconPressedColor = MaterialTheme.colorScheme.primary
     val iconDefaultColor = MaterialTheme.colorScheme.onSurface
     BottomAppBar(
@@ -193,32 +197,55 @@ fun RickAndMortyBottomAppBar() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Row() {
-                        IconButton(onClick = { selected.value = BottomIcons.HOME }, Modifier.weight(1f)) {
+                        IconButton(onClick = {
+                            bottomNavigationViewModel.bottomMenuSelected.value = BottomIcons.HOME
+                            navController.navigate("home")
+                        }, Modifier.weight(1f)) {
                             Icon(
                                 imageVector = Icons.Rounded.Home,
                                 contentDescription = null,
-                                tint = if (selected.value == BottomIcons.HOME) iconPressedColor else iconDefaultColor
+                                tint = if (bottomNavigationViewModel.bottomMenuSelected.value == BottomIcons.HOME) iconPressedColor else iconDefaultColor
                             )
                         }
-                        IconButton(onClick = { selected.value = BottomIcons.EPISODES }, Modifier.weight(1f)) {
+                        IconButton(
+                            onClick = {
+                                bottomNavigationViewModel.bottomMenuSelected.value =
+                                    BottomIcons.EPISODES
+                                navController.navigate("episodes")
+                            },
+                            Modifier.weight(1f)
+                        ) {
                             Icon(
                                 Icons.Rounded.DateRange,
                                 contentDescription = null,
-                                tint = if (selected.value == BottomIcons.EPISODES) iconPressedColor else iconDefaultColor
+                                tint = if (bottomNavigationViewModel.bottomMenuSelected.value == BottomIcons.EPISODES) iconPressedColor else iconDefaultColor
                             )
                         }
-                        IconButton(onClick = { selected.value = BottomIcons.CHARACTERS }, Modifier.weight(1f)) {
+                        IconButton(
+                            onClick = {
+                                bottomNavigationViewModel.bottomMenuSelected.value =
+                                    BottomIcons.CHARACTERS
+                                navController.navigate("characters")
+                            },
+                            Modifier.weight(1f)
+                        ) {
                             Icon(
                                 Icons.Rounded.Face,
                                 contentDescription = null,
-                                tint = if (selected.value == BottomIcons.CHARACTERS) iconPressedColor else iconDefaultColor
+                                tint = if (bottomNavigationViewModel.bottomMenuSelected.value == BottomIcons.CHARACTERS) iconPressedColor else iconDefaultColor
                             )
                         }
-                        IconButton(onClick = { selected.value = BottomIcons.FAVORITES }, Modifier.weight(1f)) {
+                        IconButton(
+                            onClick = {
+                                bottomNavigationViewModel.bottomMenuSelected.value =
+                                    BottomIcons.FAVORITES
+                            },
+                            Modifier.weight(1f)
+                        ) {
                             Icon(
                                 imageVector = Icons.Rounded.Favorite,
                                 contentDescription = null,
-                                tint = if (selected.value == BottomIcons.FAVORITES) iconPressedColor else iconDefaultColor
+                                tint = if (bottomNavigationViewModel.bottomMenuSelected.value == BottomIcons.FAVORITES) iconPressedColor else iconDefaultColor
                             )
                         }
                     }
