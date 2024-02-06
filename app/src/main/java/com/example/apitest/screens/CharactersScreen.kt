@@ -43,75 +43,71 @@ import com.example.apitest.model.CharactersListDataModel
 import com.example.apitest.viewModel.CharactersUiState
 
 object CharactersScreen {
+    @Suppress("ktlint:standard:function-naming")
     @Composable
     fun CharactersScreen(
         charactersUiState: CharactersUiState,
         modifier: Modifier = Modifier,
-        navController: NavController
+        navController: NavController,
     ) {
         when (charactersUiState) {
             is CharactersUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
-            is CharactersUiState.Success -> ResultScreen(
-                charactersUiState.characters,
-                navController
-            )
+            is CharactersUiState.Success ->
+                ResultScreen(
+                    charactersUiState.characters,
+                    navController,
+                )
 
             is CharactersUiState.Error -> ErrorScreen(modifier = modifier.fillMaxSize())
         }
     }
 
-    /**
-     * The home screen displaying the loading message.
-     */
+    @Suppress("ktlint:standard:function-naming")
     @Composable
     fun LoadingScreen(modifier: Modifier = Modifier) {
         Image(
             modifier = modifier.size(200.dp),
             painter = painterResource(R.drawable.loading_img),
-            contentDescription = stringResource(R.string.loading)
+            contentDescription = stringResource(R.string.loading),
         )
     }
 
-    /**
-     * The home screen displaying error message with re-attempt button.
-     */
+    @Suppress("ktlint:standard:function-naming")
     @Composable
     fun ErrorScreen(modifier: Modifier = Modifier) {
         Column(
             modifier = modifier,
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_connection_error),
-                contentDescription = ""
+                contentDescription = "",
             )
             Text(text = stringResource(R.string.loading_failed), modifier = Modifier.padding(16.dp))
         }
     }
 
-    /**
-     * ResultScreen displaying number of characters retrieved.
-     */
+    @Suppress("ktlint:standard:function-naming")
     @OptIn(ExperimentalGlideComposeApi::class)
     @Composable
     fun ResultScreen(
         characters: CharactersListDataModel,
-        navController: NavController
+        navController: NavController,
     ) {
         Box(
-            contentAlignment = Alignment.TopCenter
+            contentAlignment = Alignment.TopCenter,
         ) {
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(128.dp),
-                modifier = Modifier.background(MaterialTheme.colorScheme.background)
+                modifier = Modifier.background(MaterialTheme.colorScheme.background),
             ) {
                 items(characters.results) { character ->
                     Log.d("ASD", characters.results.size.toString())
                     GlideImage(
                         model = character.image,
                         contentDescription = character.name,
-                        modifier = Modifier.padding(8.dp)
+                        modifier = Modifier.padding(8.dp),
                     )
                 }
             }

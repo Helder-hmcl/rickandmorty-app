@@ -43,23 +43,26 @@ import com.example.apitest.viewModel.CharactersPerEpisodeUrlListHolder
 import com.example.apitest.viewModel.EpisodeUiState
 
 object EpisodesScreen {
+    @Suppress("ktlint:standard:function-naming")
     @Composable
     fun EpisodesScreen(
         episodeUiState: EpisodeUiState,
         modifier: Modifier = Modifier,
-        navController: NavController
+        navController: NavController,
     ) {
         when (episodeUiState) {
             is EpisodeUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
-            is EpisodeUiState.Success -> ResultScreen(
-                episodeUiState.episodes,
-                navController
-            )
+            is EpisodeUiState.Success ->
+                ResultScreen(
+                    episodeUiState.episodes,
+                    navController,
+                )
 
             is EpisodeUiState.Error -> ErrorScreen(modifier = modifier.fillMaxSize())
         }
     }
 
+    @Suppress("ktlint:standard:function-naming")
     /**
      * The home screen displaying the loading message.
      */
@@ -68,10 +71,11 @@ object EpisodesScreen {
         Image(
             modifier = modifier.size(200.dp),
             painter = painterResource(R.drawable.loading_img),
-            contentDescription = stringResource(R.string.loading)
+            contentDescription = stringResource(R.string.loading),
         )
     }
 
+    @Suppress("ktlint:standard:function-naming")
     /**
      * The home screen displaying error message with re-attempt button.
      */
@@ -80,37 +84,39 @@ object EpisodesScreen {
         Column(
             modifier = modifier,
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_connection_error),
-                contentDescription = ""
+                contentDescription = "",
             )
             Text(text = stringResource(R.string.loading_failed), modifier = Modifier.padding(16.dp))
         }
     }
 
+    @Suppress("ktlint:standard:function-naming")
     /**
      * ResultScreen displaying number of episodes retrieved.
      */
     @Composable
     fun ResultScreen(
         episodes: EpisodesListDataModel,
-        navController: NavController
+        navController: NavController,
     ) {
         Box(
-            contentAlignment = Alignment.TopCenter
+            contentAlignment = Alignment.TopCenter,
         ) {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(1),
                 contentPadding = PaddingValues(8.dp),
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.background(MaterialTheme.colorScheme.background)
+                modifier = Modifier.background(MaterialTheme.colorScheme.background),
             ) {
                 items(episodes.results) { episode ->
                     HorizontalGridCard(title = episode.name, description = episode.air_date) {
-                        CharactersPerEpisodeUrlListHolder.listOfCharactersUrl = episode.characters.toMutableList()
+                        CharactersPerEpisodeUrlListHolder.listOfCharactersUrl =
+                            episode.characters.toMutableList()
                         navController.navigate("charactersPerEpisode")
                     }
                 }

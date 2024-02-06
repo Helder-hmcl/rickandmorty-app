@@ -75,6 +75,7 @@ import com.example.apitest.viewModel.EpisodesViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+@Suppress("ktlint:standard:function-naming")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RickAndMortyApp(applicationContext: Context) {
@@ -93,10 +94,10 @@ fun RickAndMortyApp(applicationContext: Context) {
                     navController,
                     drawerState,
                     scope,
-                    bottomNavigationViewModel
+                    bottomNavigationViewModel,
                 )
             }
-        }
+        },
     ) {
         Scaffold(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -105,20 +106,18 @@ fun RickAndMortyApp(applicationContext: Context) {
                     scrollBehavior = scrollBehavior,
                     navController = navController,
                     scope = scope,
-                    drawerState = drawerState
+                    drawerState = drawerState,
                 )
             },
             bottomBar = {
                 RickAndMortyBottomAppBar(navController, bottomNavigationViewModel)
             },
-
-            floatingActionButton = {
-            }
+            floatingActionButton = {},
         ) { contentPadding ->
-            Surface(
+             Surface(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(contentPadding)
+                    .padding(contentPadding),
             ) {
                 MyApp(Modifier, navController, applicationContext, scope, drawerState)
             }
@@ -126,6 +125,7 @@ fun RickAndMortyApp(applicationContext: Context) {
     }
 }
 
+@Suppress("ktlint:standard:function-naming")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RickAndMortyTopAppBar(
@@ -133,7 +133,7 @@ fun RickAndMortyTopAppBar(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     scope: CoroutineScope,
-    drawerState: DrawerState
+    drawerState: DrawerState,
 ) {
     CenterAlignedTopAppBar(
         scrollBehavior = scrollBehavior,
@@ -141,14 +141,14 @@ fun RickAndMortyTopAppBar(
             containerColor = MaterialTheme.colorScheme.secondary,
             scrolledContainerColor = MaterialTheme.colorScheme.secondary,
             navigationIconContentColor = MaterialTheme.colorScheme.inversePrimary,
-            actionIconContentColor = MaterialTheme.colorScheme.inversePrimary
+            actionIconContentColor = MaterialTheme.colorScheme.inversePrimary,
         ),
         title = {
             Text(
                 text = stringResource(R.string.app_name),
                 style = MaterialTheme.typography.headlineSmall,
                 color = MaterialTheme.colorScheme.inversePrimary,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
         },
         modifier = modifier,
@@ -156,7 +156,7 @@ fun RickAndMortyTopAppBar(
             IconButton(onClick = { /*TODO*/ }) {
                 Icon(
                     imageVector = Icons.Filled.Person,
-                    contentDescription = "Localized description"
+                    contentDescription = "Localized description",
                 )
             }
         },
@@ -171,14 +171,15 @@ fun RickAndMortyTopAppBar(
             }) {
                 Icon(imageVector = Icons.Filled.Menu, contentDescription = "")
             }
-        }
+        },
     )
 }
 
+@Suppress("ktlint:standard:function-naming")
 @Composable
 fun RickAndMortyBottomAppBar(
     navController: NavController,
-    bottomNavigationViewModel: BottomNavigationViewModel
+    bottomNavigationViewModel: BottomNavigationViewModel,
 ) {
     val iconPressedColor = MaterialTheme.colorScheme.primary
     val iconDefaultColor = MaterialTheme.colorScheme.onSurface
@@ -189,14 +190,14 @@ fun RickAndMortyBottomAppBar(
             Row(
                 modifier = Modifier.fillMaxWidth(1f),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(1f),
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Row() {
+                    Row {
                         IconButton(onClick = {
                             bottomNavigationViewModel.bottomMenuSelected.value = BottomIcons.HOME
                             navController.navigate("home")
@@ -204,7 +205,11 @@ fun RickAndMortyBottomAppBar(
                             Icon(
                                 imageVector = Icons.Rounded.Home,
                                 contentDescription = null,
-                                tint = if (bottomNavigationViewModel.bottomMenuSelected.value == BottomIcons.HOME) iconPressedColor else iconDefaultColor
+                                tint = if (bottomNavigationViewModel.bottomMenuSelected.value == BottomIcons.HOME) {
+                                    iconPressedColor
+                                } else {
+                                    iconDefaultColor
+                                },
                             )
                         }
                         IconButton(
@@ -213,12 +218,16 @@ fun RickAndMortyBottomAppBar(
                                     BottomIcons.EPISODES
                                 navController.navigate("episodes")
                             },
-                            Modifier.weight(1f)
+                            Modifier.weight(1f),
                         ) {
                             Icon(
                                 Icons.Rounded.DateRange,
                                 contentDescription = null,
-                                tint = if (bottomNavigationViewModel.bottomMenuSelected.value == BottomIcons.EPISODES) iconPressedColor else iconDefaultColor
+                                tint = if (bottomNavigationViewModel.bottomMenuSelected.value == BottomIcons.EPISODES) {
+                                    iconPressedColor
+                                } else {
+                                    iconDefaultColor
+                                },
                             )
                         }
                         IconButton(
@@ -227,12 +236,16 @@ fun RickAndMortyBottomAppBar(
                                     BottomIcons.CHARACTERS
                                 navController.navigate("characters")
                             },
-                            Modifier.weight(1f)
+                            Modifier.weight(1f),
                         ) {
                             Icon(
                                 Icons.Rounded.Face,
                                 contentDescription = null,
-                                tint = if (bottomNavigationViewModel.bottomMenuSelected.value == BottomIcons.CHARACTERS) iconPressedColor else iconDefaultColor
+                                tint = if (bottomNavigationViewModel.bottomMenuSelected.value == BottomIcons.CHARACTERS) {
+                                    iconPressedColor
+                                } else {
+                                    iconDefaultColor
+                                },
                             )
                         }
                         IconButton(
@@ -240,28 +253,33 @@ fun RickAndMortyBottomAppBar(
                                 bottomNavigationViewModel.bottomMenuSelected.value =
                                     BottomIcons.FAVORITES
                             },
-                            Modifier.weight(1f)
+                            Modifier.weight(1f),
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.Favorite,
                                 contentDescription = null,
-                                tint = if (bottomNavigationViewModel.bottomMenuSelected.value == BottomIcons.FAVORITES) iconPressedColor else iconDefaultColor
+                                tint = if (bottomNavigationViewModel.bottomMenuSelected.value == BottomIcons.FAVORITES) {
+                                    iconPressedColor
+                                } else {
+                                    iconDefaultColor
+                                },
                             )
                         }
                     }
                 }
             }
-        }
+        },
     )
 }
 
+@Suppress("ktlint:standard:function-naming")
 @Composable
 fun MyApp(
     modifier: Modifier,
     navController: NavHostController,
     applicationContext: Context,
     scope: CoroutineScope,
-    drawerState: DrawerState
+    drawerState: DrawerState,
 ) {
     NavHost(navController, startDestination = "home") {
         composable("home") {
@@ -269,21 +287,21 @@ fun MyApp(
                 context = applicationContext,
                 navController = navController,
                 scope = scope,
-                drawerState = drawerState
+                drawerState = drawerState,
             )
         }
         composable("episodes") {
             val episodesViewModel: EpisodesViewModel = viewModel()
             EpisodesScreen.EpisodesScreen(
                 episodeUiState = episodesViewModel.episodeUiState,
-                navController = navController
+                navController = navController,
             )
         }
         composable("charactersPerEpisode") {
             val charactersPerEpisodeViewModel: CharactersPerEpisodeViewModel = viewModel()
             CharactersPerEpisodeScreen.CharactersPerEpisodeScreen(
                 charactersUiState = charactersPerEpisodeViewModel.charactersPerEpisodeUiState,
-                modifier = modifier
+                modifier = modifier,
             )
         }
         composable("characters") {
@@ -291,7 +309,7 @@ fun MyApp(
             CharactersScreen.CharactersScreen(
                 charactersUiState = charactersViewModel.charactersUiState,
                 modifier = modifier,
-                navController
+                navController,
             )
         }
     }

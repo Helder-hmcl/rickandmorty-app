@@ -12,9 +12,9 @@ data class CharacterDataModel(
     val species: String,
     val status: String,
     val type: String,
-    val url: String
+    val url: String,
 )
 
 data class CharactersListDataModel(
-    var results: List<CharacterDataModel>
+    var results: List<CharacterDataModel>,
 ) : java.io.Serializable

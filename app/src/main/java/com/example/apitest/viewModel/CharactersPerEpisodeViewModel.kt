@@ -18,7 +18,9 @@ import java.io.IOException
 
 sealed interface CharactersPerEpisodeUiState {
     data class Success(val characters: List<CharacterDataModel>) : CharactersPerEpisodeUiState
+
     data object Error : CharactersPerEpisodeUiState
+
     data object Loading : CharactersPerEpisodeUiState
 }
 
@@ -27,8 +29,9 @@ object CharactersPerEpisodeUrlListHolder {
 }
 
 class CharactersPerEpisodeViewModel(application: Application) : AndroidViewModel(application) {
-
-    var charactersPerEpisodeUiState: CharactersPerEpisodeUiState by mutableStateOf(CharactersPerEpisodeUiState.Loading)
+    var charactersPerEpisodeUiState: CharactersPerEpisodeUiState by mutableStateOf(
+        CharactersPerEpisodeUiState.Loading,
+    )
         private set
 
     init {
@@ -36,7 +39,10 @@ class CharactersPerEpisodeViewModel(application: Application) : AndroidViewModel
         getCharactersFromEpisode(context, listOfCharactersUrl)
     }
 
-    private fun getCharactersFromEpisode(context: Context, listOfCharactersUrl: List<String>) {
+    private fun getCharactersFromEpisode(
+        context: Context,
+        listOfCharactersUrl: List<String>,
+    ) {
         viewModelScope.launch {
             charactersPerEpisodeUiState = CharactersPerEpisodeUiState.Loading
             val listResult: MutableList<CharacterDataModel> = mutableListOf()
@@ -48,12 +54,13 @@ class CharactersPerEpisodeViewModel(application: Application) : AndroidViewModel
                     treatedList.add(id.toString())
                 }
 
-                val deferredList = treatedList.map {
-                    async {
-                        val character = ApiCall().getSingleCharacter(it)
-                        listResult.add(character)
+                val deferredList =
+                    treatedList.map {
+                        async {
+                            val character = ApiCall().getSingleCharacter(it)
+                            listResult.add(character)
+                        }
                     }
-                }
 
                 deferredList.awaitAll()
                 charactersPerEpisodeUiState = CharactersPerEpisodeUiState.Success(listResult)
