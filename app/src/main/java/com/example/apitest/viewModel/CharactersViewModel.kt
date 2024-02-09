@@ -1,80 +1,30 @@
 package com.example.apitest.viewModel
 
-import android.app.Application
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.apitest.model.CharactersListDataModel
-import com.example.apitest.network.ApiCall
-import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import java.io.IOException
+import androidx.paging.Pager
+import androidx.paging.cachedIn
+import androidx.paging.map
+import com.example.apitest.data.local.CharacterEntity
+import com.example.apitest.data.mappers.toCharacter
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 sealed interface CharactersUiState {
-    data class Success(val characters: CharactersListDataModel) : CharactersUiState
+    data class Success(val characters: List<CharacterEntity>) : CharactersUiState
 
-    data object Error : CharactersUiState
+    object Error : CharactersUiState
 
-    data object Loading : CharactersUiState
+    object Loading : CharactersUiState
 }
-/*data class ScreenState(
-    val isLoading: Boolean = false,
-    val items: CharactersListDataModel = CharactersListDataModel(emptyList()),
-    val error: String? = null,
-    val endReached: Boolean = false,
-    val page: Int = 0
-)*/
 
-class CharactersViewModel(application: Application) : AndroidViewModel(application) {
-    var charactersUiState: CharactersUiState by mutableStateOf(CharactersUiState.Loading)
-        private set
+@HiltViewModel
+class CharactersViewModel @Inject constructor(
+    pager: Pager<Int, CharacterEntity>
+) : ViewModel() {
 
-    /*    var state by mutableStateOf(ScreenState())
-
-        private val paginator = DefaultPaginator(
-            initialKey = state.page,
-            onLoadUpdated = {
-                state = state.copy(isLoading = it)
-            },
-            onRequest = { nextPage ->
-                ApiCall().getAllCharacters({}, nextPage, 20)
-            },
-            getNextKey = {
-                state.page + 1
-            },
-            onError = {
-                state = state.copy(error = it?.localizedMessage)
-            },
-            onSuccess = { items, newKey ->
-                state = state.copy(
-                    items = state.items + items,
-                    page = newKey,
-                    endReached = items.isEmpty()
-                )
-            }
-        )*/
-
-    init {
-        getCharacters()
-    }
-
-    private fun getCharacters() {
-        viewModelScope.launch {
-            charactersUiState = CharactersUiState.Loading
-            try {
-                var listResult: CharactersListDataModel?
-
-                ApiCall().getAllCharacters { characters ->
-                    listResult = characters
-                    charactersUiState = CharactersUiState.Success(listResult!!)
-                }
-            } catch (e: IOException) {
-                EpisodeUiState.Error
-            } catch (e: HttpException) {
-                EpisodeUiState.Error
-            }
-        }
-    }
+    val characterPagingFlow = pager.flow.map { pagingData ->
+        pagingData.map { it.toCharacter() }
+    }.cachedIn(viewModelScope)
 }

@@ -70,7 +70,6 @@ import com.example.apitest.screens.HomeScreen
 import com.example.apitest.viewModel.BottomIcons
 import com.example.apitest.viewModel.BottomNavigationViewModel
 import com.example.apitest.viewModel.CharactersPerEpisodeViewModel
-import com.example.apitest.viewModel.CharactersViewModel
 import com.example.apitest.viewModel.EpisodesViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -120,12 +119,7 @@ fun RickAndMortyApp(applicationContext: Context) {
                     .padding(contentPadding),
             ) {
                 MyApp(
-                    Modifier,
-                    navController,
-                    applicationContext,
-                    scope,
-                    drawerState,
-                    bottomNavigationViewModel
+                    navController, applicationContext, scope, drawerState, bottomNavigationViewModel
                 )
             }
         }
@@ -282,7 +276,6 @@ fun RickAndMortyBottomAppBar(
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun MyApp(
-    modifier: Modifier,
     navController: NavHostController,
     applicationContext: Context,
     scope: CoroutineScope,
@@ -310,16 +303,10 @@ fun MyApp(
             val charactersPerEpisodeViewModel: CharactersPerEpisodeViewModel = viewModel()
             CharactersPerEpisodeScreen.CharactersPerEpisodeScreen(
                 charactersUiState = charactersPerEpisodeViewModel.charactersPerEpisodeUiState,
-                modifier = modifier,
             )
         }
         composable("characters") {
-            val charactersViewModel: CharactersViewModel = viewModel()
-            CharactersScreen.CharactersScreen(
-                charactersUiState = charactersViewModel.charactersUiState,
-                modifier = modifier,
-                navController,
-            )
+            CharactersScreen.CharactersScreen()
         }
     }
 }
