@@ -15,61 +15,47 @@
  */
 package com.example.apitest.screens
 
-import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
 import com.example.apitest.R
-import com.example.apitest.model.CharactersListDataModel
-import com.example.apitest.viewModel.CharactersUiState
+import com.example.apitest.screens.elements.CharacterCard
+import com.example.apitest.viewModel.CharactersViewModel
+
 
 object CharactersScreen {
     @Suppress("ktlint:standard:function-naming")
     @Composable
-    fun CharactersScreen(
-        charactersUiState: CharactersUiState,
-        modifier: Modifier = Modifier,
-        navController: NavController,
-    ) {
-        when (charactersUiState) {
-            is CharactersUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
-            is CharactersUiState.Success ->
-                ResultScreen(
-                    charactersUiState.characters,
-                    navController,
-                )
-
-            is CharactersUiState.Error -> ErrorScreen(modifier = modifier.fillMaxSize())
-        }
+    fun CharactersScreen() {
+        PagingListScreen()
     }
 
     @Suppress("ktlint:standard:function-naming")
     @Composable
-    fun LoadingScreen(modifier: Modifier = Modifier) {
-        Image(
-            modifier = modifier.size(200.dp),
-            painter = painterResource(R.drawable.loading_img),
-            contentDescription = stringResource(R.string.loading),
-        )
+    fun LoadingScreen() {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            CircularProgressIndicator(color = Color.Black)
+        }
     }
 
     @Suppress("ktlint:standard:function-naming")
@@ -88,28 +74,47 @@ object CharactersScreen {
         }
     }
 
-    @Suppress("ktlint:standard:function-naming")
     @OptIn(ExperimentalGlideComposeApi::class)
     @Composable
-    fun ResultScreen(
-        characters: CharactersListDataModel,
-        navController: NavController,
-    ) {
-        Box(
-            contentAlignment = Alignment.TopCenter,
-        ) {
-            LazyVerticalGrid(
-                columns = GridCells.Adaptive(128.dp),
-                modifier = Modifier.background(MaterialTheme.colorScheme.background),
-            ) {
-                items(characters.results) { character ->
-                    Log.d("ASD", characters.results.size.toString())
-                    GlideImage(
-                        model = character.image,
-                        contentDescription = character.name,
-                        modifier = Modifier.padding(8.dp),
-                    )
+    fun PagingListScreen() {
+        val viewModel = hiltViewModel<CharactersViewModel>()
+        val characters = viewModel.characterPagingFlow.collectAsLazyPagingItems()
+
+        LazyVerticalGrid(columns = GridCells.Adaptive(128.dp)) {
+            items(
+                count = characters.itemCount,
+                key = characters.itemKey { it.id }
+            ) { i ->
+                CharacterCard(characters[i]?.name ?: "", characters[i]?.image ?: "")
+            }
+
+            when (val state = characters.loadState.refresh) { //FIRST LOAD
+                is LoadState.Error -> {
+                    item { ErrorScreen() }
                 }
+
+                is LoadState.Loading -> { // Loading UI
+                    item {
+                        LoadingScreen()
+                    }
+                }
+
+                else -> {
+                }
+            }
+
+            when (val state = characters.loadState.append) { // Pagination
+                is LoadState.Error -> {
+                    item { ErrorScreen() }
+                }
+
+                is LoadState.Loading -> { // Pagination Loading UI
+                    item {
+                        LoadingScreen()
+                    }
+                }
+
+                else -> {}
             }
         }
     }

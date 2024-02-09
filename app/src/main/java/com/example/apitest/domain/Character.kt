@@ -1,6 +1,10 @@
-package com.example.apitest.model
+package com.example.apitest.domain
 
-data class CharacterDataModel(
+import com.example.apitest.model.Location
+import com.example.apitest.model.Origin
+import javax.inject.Inject
+
+data class Character @Inject constructor(
     val created: String,
     val episode: List<String>,
     val gender: String,
@@ -14,7 +18,3 @@ data class CharacterDataModel(
     val type: String,
     val url: String,
 )
-
-data class CharactersListDataModel(
-    var results: List<CharacterDataModel>,
-) : java.io.Serializable

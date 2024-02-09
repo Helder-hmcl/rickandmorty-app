@@ -7,8 +7,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.apitest.model.EpisodesListDataModel
-import com.example.apitest.network.ApiCall
+import com.example.apitest.data.local.EpisodesListDataModel
+import com.example.apitest.data.remote.RickAndMortyRemoteMediator
+import com.example.apitest.di.AppModule
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -16,9 +17,9 @@ import java.io.IOException
 sealed interface EpisodeUiState {
     data class Success(val episodes: EpisodesListDataModel) : EpisodeUiState
 
-    data object Error : EpisodeUiState
+    object Error : EpisodeUiState
 
-    data object Loading : EpisodeUiState
+    object Loading : EpisodeUiState
 }
 
 class EpisodesViewModel(application: Application) : AndroidViewModel(application) {
@@ -36,7 +37,7 @@ class EpisodesViewModel(application: Application) : AndroidViewModel(application
             try {
                 var listResult: EpisodesListDataModel?
 
-                ApiCall().getAllEpisodes(context) { episodes ->
+                RickAndMortyRemoteMediator(rickAndMortyApi = AppModule.provideRickAndMortyApi()).getAllEpisodes { episodes ->
                     listResult = episodes
                     episodeUiState = EpisodeUiState.Success(listResult!!)
                 }

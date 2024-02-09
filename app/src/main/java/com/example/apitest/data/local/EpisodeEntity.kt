@@ -1,6 +1,8 @@
-package com.example.apitest.model
+package com.example.apitest.data.local
 
-data class EpisodeDataModel(
+import javax.inject.Inject
+
+data class EpisodeEntity @Inject constructor(
     var id: Int,
     var name: String,
     var air_date: String,
@@ -10,6 +12,6 @@ data class EpisodeDataModel(
     val created: String,
 ) : java.io.Serializable
 
-data class EpisodesListDataModel(
-    var results: List<EpisodeDataModel>,
+data class EpisodesListDataModel @Inject constructor(
+    var results: List<EpisodeEntity>,
 ) : java.io.Serializable
