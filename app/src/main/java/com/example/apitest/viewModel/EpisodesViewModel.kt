@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.apitest.data.local.EpisodesListDataModel
+import com.example.apitest.model.EpisodesListDataModel
 import com.example.apitest.data.remote.RickAndMortyRemoteMediator
 import com.example.apitest.di.AppModule
 import kotlinx.coroutines.launch

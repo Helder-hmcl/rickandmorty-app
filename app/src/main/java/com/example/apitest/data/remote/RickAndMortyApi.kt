@@ -1,8 +1,8 @@
 package com.example.apitest.data.remote
 
 
-import com.example.apitest.data.local.CharactersResponse
-import com.example.apitest.data.local.EpisodesListDataModel
+import com.example.apitest.model.CharactersResponse
+import com.example.apitest.model.EpisodesListDataModel
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

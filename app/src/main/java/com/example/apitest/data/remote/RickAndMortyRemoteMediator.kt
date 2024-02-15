@@ -1,9 +1,9 @@
 package com.example.apitest.data.remote
 
 import android.util.Log
-import com.example.apitest.data.local.CharacterEntity
-import com.example.apitest.data.local.CharactersResponse
-import com.example.apitest.data.local.EpisodesListDataModel
+import com.example.apitest.model.CharacterEntity
+import com.example.apitest.model.CharactersResponse
+import com.example.apitest.model.EpisodesListDataModel
 import com.example.apitest.model.Location
 import com.example.apitest.model.Origin
 import kotlinx.coroutines.Dispatchers

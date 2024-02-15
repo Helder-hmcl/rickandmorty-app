@@ -4,7 +4,7 @@ package com.example.apitest.di
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.example.apitest.data.local.CharacterEntity
+import com.example.apitest.model.CharacterEntity
 import com.example.apitest.data.remote.RickAndMortyApi
 import com.example.apitest.data.remote.RickAndMortyPagingSource
 import dagger.Module

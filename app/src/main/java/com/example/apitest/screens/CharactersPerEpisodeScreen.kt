@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.apitest.domain.Character
+import com.example.apitest.model.CharacterEntity
 import com.example.apitest.screens.elements.CharacterCard
 import com.example.apitest.viewModel.CharactersPerEpisodeUiState
 
@@ -34,7 +34,7 @@ object CharactersPerEpisodeScreen {
     @Suppress("ktlint:standard:function-naming")
     @Composable
     fun CharacterResultScreen(
-        characters: List<Character>,
+        characters: List<CharacterEntity>,
     ) {
         LazyVerticalGrid(columns = GridCells.Adaptive(128.dp)) {
             items(characters) { character ->

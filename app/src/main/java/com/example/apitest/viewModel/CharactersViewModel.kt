@@ -5,8 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.cachedIn
 import androidx.paging.map
-import com.example.apitest.data.local.CharacterEntity
-import com.example.apitest.data.mappers.toCharacter
+import com.example.apitest.model.CharacterEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -25,6 +24,6 @@ class CharactersViewModel @Inject constructor(
 ) : ViewModel() {
 
     val characterPagingFlow = pager.flow.map { pagingData ->
-        pagingData.map { it.toCharacter() }
+        pagingData.map { it }
     }.cachedIn(viewModelScope)
 }

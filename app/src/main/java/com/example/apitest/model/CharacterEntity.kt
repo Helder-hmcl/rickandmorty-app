@@ -1,7 +1,4 @@
-package com.example.apitest.data.local
-
-import com.example.apitest.model.Location
-import com.example.apitest.model.Origin
+package com.example.apitest.model
 
 data class CharacterEntity(
     val created: String,
