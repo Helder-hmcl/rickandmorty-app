@@ -7,11 +7,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.apitest.data.mappers.toCharacter
+import com.example.apitest.model.CharacterEntity
 import com.example.apitest.data.mappers.toCharacterEntity
 import com.example.apitest.data.remote.RickAndMortyRemoteMediator
 import com.example.apitest.di.AppModule
-import com.example.apitest.domain.Character
 import com.example.apitest.viewModel.CharactersPerEpisodeUrlListHolder.listOfCharactersUrl
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -20,7 +19,7 @@ import retrofit2.HttpException
 import java.io.IOException
 
 sealed interface CharactersPerEpisodeUiState {
-    data class Success(val characters: List<Character>) : CharactersPerEpisodeUiState
+    data class Success(val characters: List<CharacterEntity>) : CharactersPerEpisodeUiState
 
     object Error : CharactersPerEpisodeUiState
 
@@ -48,7 +47,7 @@ class CharactersPerEpisodeViewModel(application: Application) : AndroidViewModel
     ) {
         viewModelScope.launch {
             charactersPerEpisodeUiState = CharactersPerEpisodeUiState.Loading
-            val listResult: MutableList<Character> = mutableListOf()
+            val listResult: MutableList<CharacterEntity> = mutableListOf()
             try {
                 val treatedList = mutableListOf<String>()
 
@@ -64,7 +63,7 @@ class CharactersPerEpisodeViewModel(application: Application) : AndroidViewModel
                                 RickAndMortyRemoteMediator(AppModule.provideRickAndMortyApi()).getSingleCharacter(
                                     it
                                 )
-                            listResult.add(character.toCharacterEntity().toCharacter())
+                            listResult.add(character.toCharacterEntity())
                         }
                     }
 

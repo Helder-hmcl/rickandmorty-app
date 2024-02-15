@@ -2,7 +2,7 @@ package com.example.apitest.data.remote
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.apitest.data.local.CharacterEntity
+import com.example.apitest.model.CharacterEntity
 
 class RickAndMortyPagingSource(
     private val rickAndMortyApi: RickAndMortyApi,

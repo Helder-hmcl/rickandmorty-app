@@ -37,7 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.apitest.R
-import com.example.apitest.data.local.EpisodesListDataModel
+import com.example.apitest.model.EpisodesListDataModel
 import com.example.apitest.screens.elements.HorizontalGridCard
 import com.example.apitest.viewModel.CharactersPerEpisodeUrlListHolder
 import com.example.apitest.viewModel.EpisodeUiState

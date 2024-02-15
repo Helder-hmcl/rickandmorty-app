@@ -1,4 +1,4 @@
-package com.example.apitest.data.local
+package com.example.apitest.model
 
 import javax.inject.Inject
 
