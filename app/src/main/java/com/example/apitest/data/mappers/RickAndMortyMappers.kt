@@ -1,9 +1,9 @@
 package com.example.apitest.data.mappers
 
-import com.example.apitest.model.CharacterEntity
-import com.example.apitest.model.EpisodeEntity
 import com.example.apitest.data.remote.CharacterDto
 import com.example.apitest.data.remote.EpisodeDto
+import com.example.apitest.model.CharacterEntity
+import com.example.apitest.model.EpisodeEntity
 
 fun CharacterDto.toCharacterEntity(): CharacterEntity {
     return CharacterEntity(
